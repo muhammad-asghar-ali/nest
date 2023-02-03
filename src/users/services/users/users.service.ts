@@ -4,6 +4,7 @@ import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/typeorm/user.entity';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { SerializedUser, User } from 'src/users/types';
+import { encodePassword } from 'src/utils/bcrypt';
 import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
@@ -62,11 +63,13 @@ export class UsersService {
 
   // create user to db
   async createUser(userDetails: CreateUserDto) {
+    // hash password
+    const password = encodePassword(userDetails.password);
     /**
      * Creates a new entity instance and copies all entity properties from this object into a new entity.
      * Note that it copies only properties that are present in entity schema.
      */
-    const user = await this._svc.create(userDetails);
+    const user = await this._svc.create({ ...userDetails, password });
     /**
      * Saves a given entity in the database.
      * If entity does not exist in the database then inserts, otherwise updates.
