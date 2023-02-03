@@ -4,7 +4,7 @@ import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/typeorm/user.entity';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { SerializedUser, User } from 'src/users/types';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -17,21 +17,25 @@ export class UsersService {
   private users: User[] = [
     {
       id: 1,
+      username: 'test',
       email: 'test@email.com',
       password: 'test',
     },
     {
       id: 2,
+      username: 'test',
       email: 'test1@email.com',
       password: 'test1',
     },
     {
       id: 3,
+      username: 'test',
       email: 'test2@email.com',
       password: 'test2',
     },
     {
       id: 4,
+      username: 'test',
       email: 'test3@email.com',
       password: 'test3',
     },
@@ -68,5 +72,13 @@ export class UsersService {
      * If entity does not exist in the database then inserts, otherwise updates.
      */
     return this._svc.save(user);
+  }
+
+  // get one user
+  public async findOne(username: string) {
+    const user = await this._svc.findOne({
+      where: username as FindOptionsWhere<UserEntity>,
+    });
+    return user;
   }
 }

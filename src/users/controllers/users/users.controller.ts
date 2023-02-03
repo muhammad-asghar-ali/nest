@@ -39,7 +39,7 @@ export class UsersController {
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/find/:email')
+  @Get('find/:email')
   getUserByEmail(@Param('email') email: string) {
     const user = this.userService.getUserByEmail(email);
     if (!user) throw new HttpException('user not found', HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ export class UsersController {
     return new SerializedUser(user);
   }
 
-  @Get('/filter/:id')
+  @Get('filter/:id')
   @UseFilters(HttpExceptionFilter)
   getUserByIdFilter(@Param('id', ParseIntPipe) id: number) {
     const user = this.userService.getUserById(id);
@@ -61,9 +61,14 @@ export class UsersController {
     return new SerializedUser(user);
   }
 
-  @Post('/create')
+  @Post('create')
   @UsePipes(new ValidationPipe())
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
+  }
+
+  @Post('find')
+  findOne(@Body() username: string) {
+    return this.userService.findOne(username);
   }
 }
