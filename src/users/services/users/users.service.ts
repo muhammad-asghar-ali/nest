@@ -84,4 +84,10 @@ export class UsersService {
     });
     return user;
   }
+
+  getUserByIdDb(id: number) {
+    return this._svc.findOne({
+      where: id as FindOptionsWhere<UserEntity>,
+    });
+  }
 }
