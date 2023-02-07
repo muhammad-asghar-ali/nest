@@ -5,7 +5,6 @@ import { CustomersModule } from './customers/customers.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentsModule } from './payments/payments.module';
-import { AccountsModule } from './accounts/accounts.module';
 
 @Module({
   imports: [
@@ -21,11 +20,10 @@ import { AccountsModule } from './accounts/accounts.module';
       synchronize: true,
       logging: ['query', 'error', 'warn'],
     }),
-    CustomersModule,
     UsersModule,
+    CustomersModule,
     AuthModule,
     PaymentsModule,
-    AccountsModule,
   ],
   controllers: [],
   providers: [],
